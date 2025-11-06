@@ -1,229 +1,729 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-   <title>portfolio website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abu Talha | Developer Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --accent: #00ff88;
+            --accent-dim: rgba(0, 255, 136, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --gradient: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--accent) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #00d4ff 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.03; }
+            50% { opacity: 0.06; }
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 10, 10, 0.95);
+        }
+        
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero-text .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+        
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.6s backwards;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--bg-primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-3px);
+        }
+        
+        .hero-image {
+            position: relative;
+            animation: fadeInRight 1s ease 0.4s backwards;
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        
+        .profile-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+                        var(--gradient) border-box;
+            animation: rotate 10s linear infinite;
+        }
+        
+        .profile-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            overflow: hidden;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Section Styles */
+        section {
+            position: relative;
+            padding: 8rem 5%;
+            z-index: 1;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Projects Grid */
+        .projects-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .project-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.15);
+        }
+        
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .project-card:hover .project-image::after {
+            opacity: 0.1;
+        }
+        
+        .project-content {
+            padding: 2rem;
+        }
+        
+        .project-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .project-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tech-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+        
+        /* Contact Section */
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-item {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-dim);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-info h4 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .contact-info a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-info a:hover {
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            position: relative;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1;
+        }
+        
+        footer p {
+            color: var(--text-secondary);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+            
+            .profile-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .profile-img {
+                width: 250px;
+                height: 250px;
+                font-size: 6rem;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-
-<style>
-
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
-
-.div4{
-background-color: black;
-margin:0;
-padding:0;
-display:flex;
-justify-content:center;
-flex-direction: row;
-}
-
-.div4>h1{
-color:white;
-font-size:200%;
-font-family: 'Bebas Neue';
-}
-
-body{
-padding:0;
-margin:0;
-}
-
-
-
-.container2{
-background-color:black;
-padding-left:2%;
-padding-right:2%;
-display:flex;
-flex-direction:row;
-}
-
-
-
-.container1{
-background-color:black;
-padding-left:2%;
-padding-right:2%;
-padding-bottom:4%;
-display:flex;
-flex-direction:row;
-}
-.container{
-background-color:black;
-padding-left:2%;
-padding-right:2%;
-padding-bottom:15%;
-padding-top:5%;
-display:flex;
-flex-direction:row;
-}
-.div3>h1{
-color: white; 
-font-size:300%;
-font-family: 'Bebas Neue';
-}
-.div3>p{
-color: white; 
-font-family: 'Bebas Neue';
-}
-
-.div5>h1{
-color: white; 
-padding-left:15px;
-font-size:200%;
-font-family: 'Bebas Neue';
-}
-
-
-
-
-.div2{
-display:flex;
-align-items:center;
-}
-</style> 
-
 <body>
-<div class="container">
-
-<div class="div1">
-<div class="div3"><h1 style="color:Red;">ABU TALHA</h1></div>
-<div class="div3"><p>I am an 19 year old developer .I am skilled in 6 programing languages ,and prominent in Python, HTML and CSS .I have made many applications, games and websites.</p></div>
-</div>
-
-<div class="div2">
-<img src="Propic.png" width=200px>
-</div>
-
-</div>
-
-
-<!--Achievement-->
-
-
-
-<div class="div4"><h1>-- projects --</h1></div>
-
-
-
-
-<div class="container1">
-
-<div class="div2">
-<img src="ai.jpg" width=200px>
-</div>
-
-
-<div class="div1">
-<div class="div3"><h1>AI Assistant</h1></div>
-<div class="div3"><p>This virtual assistant can search anything on the internet by speech. It can even open apps and is generally a very usefull piece of software </p></div>
-</div>
-
-
-</div>
-
-<!--2nd container-->
-
-<div class="container">
-
-<div class="div1">
-<div class="div3"><h1>Digital Library</h1></div>
-<div class="div3"><p>A data extracting system that can save and load information about books in a library</p></div>
-</div>
-
-<div class="div2">
-<img src="Lib.png" width=200px>
-</div>
-
-</div>
-
-
-<!--3rd one-->
-
-
-<div class="container1">
-
-<div class="div2">
-<img src="S.png" width=200px>
-</div>
-
-
-<div class="div1">
-<div class="div3"><h1>Shopping Advisor</h1></div>
-<div class="div3"><p>This assistant can search any product on the internet. It's a very usefull piece of software </p></div>
-</div>
-
-
-</div>
-
-
-
-<!--4th one-->
-
-
-
-<div class="container">
-
-<div class="div1">
-<div class="div3"><h1>particle simulator</h1></div>
-<div class="div3"><p>A complex gravity simulation with tens of thousands of particles being simulated simultaneously</p></div>
-</div>
-
-<div class="div2">
-<img src="Ps.jpg" width=200px>
-</div>
-
-</div>
-
-
-
-<div class="div4"><h1>-- contacts--</h1></div>
-
-<div class="container2">
-
-<div class="div2">
-<img src="phone.png" width=50px>
-</div>
-
-
-<div class="div1">
-<div class="div5"><h1>6261525219</h1></div>
-
-</div>
-</div>
-
-<div class="container2">
-
-<div class="div2">
-<img src="whats.png" width=50px>
-</div>
-
-
-<div class="div1">
-<div class="div5"><h1>6261525219</h1></div>
-
-
-</div>
-</div>
-
-
-
-<div class="container2">
-
-<div class="div2">
-<img src="gmail.png" width=50px>
-</div>
-
-
-<div class="div1">
-<div class="div5"><h1>abutalhaa551@gmail.com</h1></div>
-
-
-</div>
-</div>
-
-
-
+    <div class="bg-animation"></div>
+    
+    <nav id="navbar">
+        <div class="nav-content">
+            <div class="logo">ABU TALHA</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Building the Future, One Line at a Time</h1>
+                <div class="subtitle">Full-Stack Developer & AI Engineer</div>
+                <p>19-year-old developer with expertise in 6 programming languages. Specialized in Python, HTML, and CSS. I create innovative applications, immersive games, and cutting-edge web experiences that push the boundaries of what's possible.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-container">
+                    <div class="profile-ring"></div>
+                    <div class="profile-img">👨‍💻</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="projects">
+        <div class="section-header">
+            <div class="section-tag">Portfolio</div>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">A showcase of my most impactful work spanning AI, web development, and computational simulations</p>
+        </div>
+        
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">🤖</div>
+                <div class="project-content">
+                    <h3>AI Virtual Assistant</h3>
+                    <p>Intelligent voice-activated assistant with web search capabilities, application control, and natural language processing. Features real-time speech recognition and contextual understanding for seamless interaction.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Speech Recognition</span>
+                        <span class="tech-tag">API Integration</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-image">📚</div>
+                <div class="project-content">
+                    <h3>Digital Library System</h3>
+                    <p>Comprehensive library management system with advanced data extraction and storage capabilities. Features include book cataloging, search functionality, and persistent data management with optimized query performance.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Database</span>
+                        <span class="tech-tag">Data Management</span>
+                        <span class="tech-tag">Backend</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-image">🛒</div>
+                <div class="project-content">
+                    <h3>Smart Shopping Advisor</h3>
+                    <p>AI-powered shopping assistant that aggregates product information from multiple sources, providing price comparisons, reviews analysis, and personalized recommendations to optimize purchasing decisions.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Web Scraping</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Data Analysis</span>
+                        <span class="tech-tag">ML</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-image">⚛️</div>
+                <div class="project-content">
+                    <h3>Particle Physics Simulator</h3>
+                    <p>Advanced N-body gravity simulation engine capable of rendering and computing interactions for tens of thousands of particles simultaneously. Implements Barnes-Hut algorithm for optimized O(n log n) performance.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Physics Engine</span>
+                        <span class="tech-tag">Optimization</span>
+                        <span class="tech-tag">3D Graphics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <div class="section-header">
+            <div class="section-tag">Get In Touch</div>
+            <h2 class="section-title">Let's Work Together</h2>
+            <p class="section-subtitle">Have a project in mind? Let's discuss how we can bring your vision to life</p>
+        </div>
+        
+        <div class="contact-content">
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-info">
+                        <h4>Phone</h4>
+                        <a href="tel:6261525219">+91 6261525219</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-info">
+                        <h4>WhatsApp</h4>
+                        <a href="https://wa.me/916261525219">+91 6261525219</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-info">
+                        <h4>Email</h4>
+                        <a href="mailto:abutalhaa551@gmail.com">abutalhaa551@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Abu Talha. All rights reserved. | Crafted with precision and passion</p>
+    </footer>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.project-card, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
